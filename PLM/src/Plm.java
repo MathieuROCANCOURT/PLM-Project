@@ -5,6 +5,7 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -12,12 +13,19 @@ import java.util.Map;
  * 
  */
 public class Plm {
-	private static void displayPlanes(Hashtable<Integer, ArrayList<ArrayList<String>>> planes) {
-		System.out.println("Voici la list de tous les avions.");
-		for (Map.Entry<Integer, ArrayList<ArrayList<String>>> plane : planes.entrySet()) {
-			ArrayList<String> planeData = plane.getValue().get(0);
+	private static void displayPlanes(Hashtable<Integer, ArrayList<String>> planes) {
+		System.out.println("Voici la liste de tous les avions.");
+		for (Map.Entry<Integer, ArrayList<String>> plane : planes.entrySet()) {
+			ArrayList<String> planeData = plane.getValue();
 			System.out.println("Id n°" + plane.getKey() + ": Avion " + planeData.get(0) + " qui est en "
 					+ planeData.get(1) + " est destiné au " + planeData.get(2));
+		}
+	}
+
+	private static void displayPlanes2(Hashtable<Integer, ArrayList<String>> planes) {
+		System.out.println("Voici la liste de tous les avions.");
+		for (Map.Entry<Integer, ArrayList<String>> plane : planes.entrySet()) {
+			System.out.println("Id n°" + plane.toString());
 		}
 	}
 
@@ -27,17 +35,17 @@ public class Plm {
 	public static void main(String[] args) {
 		String[] phaseCurrently = { "étude de faisabilité", "conception", "définition", "construction", "en service",
 				"clôturé" };
-		Hashtable<Integer, ArrayList<ArrayList<String>>> planes = new Hashtable<>();
+		Hashtable<Integer, ArrayList<String>> planes = new Hashtable<>();
 
-		ArrayList<ArrayList<String>> plane1 = new ArrayList<ArrayList<String>>();
-		ArrayList<ArrayList<String>> plane2 = new ArrayList<ArrayList<String>>();
-		ArrayList<ArrayList<String>> plane3 = new ArrayList<ArrayList<String>>();
-		ArrayList<ArrayList<String>> plane4 = new ArrayList<ArrayList<String>>();
+		ArrayList<String> plane1 = new ArrayList<String>();
+		ArrayList<String> plane2 = new ArrayList<String>();
+		ArrayList<String> plane3 = new ArrayList<String>();
+		ArrayList<String> plane4 = new ArrayList<String>();
 
-		plane1.add(new ArrayList<>(Arrays.asList("A320", phaseCurrently[0], "fret")));
-		plane2.add(new ArrayList<>(Arrays.asList("A400M", phaseCurrently[2], "militaire")));
-		plane3.add(new ArrayList<>(Arrays.asList("A300", phaseCurrently[3], "avions d'affaires")));
-		plane4.add(new ArrayList<>(Arrays.asList("A380", phaseCurrently[5], "avions d'affaires")));
+		Collections.addAll(plane1, "A320", phaseCurrently[0], "fret");
+		Collections.addAll(plane2, "A400M", phaseCurrently[2], "militaire");
+		Collections.addAll(plane3, "A300", phaseCurrently[3], "affaire");
+		Collections.addAll(plane4, "A380", phaseCurrently[5], "civil");
 
 		// Adding elements
 		planes.put(1, plane1);
@@ -46,7 +54,7 @@ public class Plm {
 		planes.put(4, plane4);
 
 		displayPlanes(planes);
-		;
+		displayPlanes2(planes);
 
 	}
 
