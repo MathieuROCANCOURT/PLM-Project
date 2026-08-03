@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * 
@@ -27,6 +28,23 @@ public class Plm {
 		for (Map.Entry<Integer, ArrayList<String>> plane : planes.entrySet()) {
 			System.out.println("Id n°" + plane.toString());
 		}
+	}
+
+	private static boolean wantDisplay() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Voulez-vous voir la liste de tous les avions ? [o/n]");
+
+		while (!(sc.hasNext("o") || sc.hasNext("n"))) {
+			sc.next();
+			System.out.print("Veuillez entrer 'o' ou 'n'.");
+		}
+
+		if (sc.hasNext("o")) {
+			sc.close();
+			return true;
+		}
+		sc.close();
+		return false;
 	}
 
 	/**
@@ -53,8 +71,10 @@ public class Plm {
 		planes.put(3, plane3);
 		planes.put(4, plane4);
 
-		displayPlanes(planes);
-		displayPlanes2(planes);
+		if (wantDisplay()) {
+			displayPlanes(planes);
+			displayPlanes2(planes);
+		}
 
 	}
 
