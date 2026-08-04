@@ -33,14 +33,11 @@ public class Plm {
 		System.out.print("Voulez-vous voir la liste de tous les avions ? [o/n]");
 
 		while (!(sc.hasNext("o") || sc.hasNext("n"))) {
-			sc.next();
+			sc.nextLine();
 			System.out.print("Veuillez entrer 'o' ou 'n'.");
 		}
 
-		if (sc.hasNext("o")) {
-			return true;
-		}
-		return false;
+		return sc.nextLine().equals("o");
 	}
 	
 	private static void searchKeyWordPlane(Hashtable<Integer, ArrayList<String>> planes, String keyWord) {
@@ -56,16 +53,15 @@ public class Plm {
 		displayPlanes(planesFilterKeyWord);
 	}
 	
-	private static Hashtable<Integer, ArrayList<String>> addPieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
+	private static void addPieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
 		Piece shopPiece = new Piece();
 		boolean wantAddPiece = true;
 		
 		while (wantAddPiece) {
 			System.out.print("Voulez-vous ajouter une pièce à un avion ?[O/n]");
-			String responseUser = sc.nextLine();
+			String responseUser = sc.nextLine().trim();
 			
-			if (responseUser.equalsIgnoreCase("O")) {
-				System.out.println("test");
+			if (responseUser.isEmpty() || responseUser.equalsIgnoreCase("O")) {
 				boolean pieceInShop = false;
 				String pieceUser = "";
 				while (!pieceInShop) {
@@ -78,11 +74,15 @@ public class Plm {
 				while (!isValidProgram) {
 					System.out.print("À quelle programme voulez-vous mettre ?");
 					try {
-						int index = sc.nextInt();
-						planes.get(index).add(pieceUser);
-						isValidProgram = true;
+						int index = Integer.parseInt(sc.nextLine());
+						if (planes.containsKey(index)) {
+							planes.get(index).add(pieceUser);
+							isValidProgram = true;
+						} else {
+							System.err.println("Le numéro du programme n'est pas présent.");
+						}
 					} catch (Exception e) {
-						System.err.println("Erreur de saisie.");
+						System.err.println("Erreur de saisie, cela doit être un nombre entier.");
 					}
 				}
 					
@@ -92,8 +92,6 @@ public class Plm {
 				System.err.println("La saisie n'est pas valide.");
 			}
 		}
-		
-		return planes;
 	}
 
 	/**
@@ -133,9 +131,8 @@ public class Plm {
 		}
 
 		//searchKeyWordPlane(planes, "80");
-		planes = addPieces(sc, planes);
+		addPieces(sc, planes);
 
-		sc.next();
 		if (wantDisplay(sc)) {
 			displayPlanes2(planes);
 		}
