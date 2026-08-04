@@ -21,8 +21,9 @@ public class Plm {
 			System.out.println("Id n°" + plane.getKey() + ": Avion " + planeData.get(0) + " qui est en "
 					+ planeData.get(1) + " est destiné au " + planeData.get(2));
 			if (planeData.size() > 3) {
-				displayPieces(planeData.subList(3, planeData.size()));
+				Piece.displayPieces(planeData.subList(3, planeData.size()));
 			}
+			System.out.println("--------------------------------------------");
 		}
 	}
 
@@ -30,13 +31,6 @@ public class Plm {
 		System.out.println("Voici la liste des avions.");
 		for (Map.Entry<Integer, ArrayList<String>> plane : planes.entrySet()) {
 			System.out.println("Id n°" + plane.toString());
-		}
-	}
-
-	private static void displayPieces(List<String> pieces) {
-		System.out.println("Voici la liste des pièces:");
-		for (String piece : pieces) {
-			System.out.println(piece);
 		}
 	}
 
@@ -74,12 +68,12 @@ public class Plm {
 				if (isAdd) {
 					return index;
 				}
-				if (!canRemovePiecePlane(planeData)) {
-					System.err.println("Cette avion n'a pas de pièce.");
-					return -1;
+				if (canRemovePiecePlane(planeData)) {
+					return index;
 				}
-				System.err.println("La pièce n'est pas dans la liste");
+				System.err.println("Cette avion n'a pas de pièce.");
 				return -1;
+
 			} else {
 				System.err.println("Le numéro de l'identifiant n'est pas présent.");
 			}

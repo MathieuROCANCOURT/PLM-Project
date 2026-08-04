@@ -2,6 +2,8 @@
  * 
  */
 
+import java.util.List;
+
 /**
  * 
  */
@@ -33,6 +35,13 @@ public class Piece {
 	
 	protected String[][] getShopPieces() {
 		return shop;
+	}
+
+	protected static void displayPieces(List<String> pieces) {
+		System.out.println("Voici la liste des pièces:");
+		for (String piece : pieces) {
+			System.out.println(piece);
+		}
 	}
 	
 	protected boolean isInShop(String wordPiece) {
