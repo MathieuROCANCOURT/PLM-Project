@@ -64,22 +64,18 @@ public class Plm {
 		displayPlanes(planesFilterKeyWord);
 	}
 
-	private static boolean checkProgram(String pieceUser, boolean addOrRemove, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
+	private static boolean checkProgram(boolean addOrRemove, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
 		System.out.print("À quelle identifiant voulez-vous mettre ?");
 		try {
 			int index = Integer.parseInt(sc.nextLine());
 			if (planes.containsKey(index)) {
 				if (addOrRemove) {
-					planes.get(index).add(pieceUser);
 					return true;
 				}
-				if (planes.get(index).size() < 4) {
+				if (canRemovePiecePlane(planes.get(index))) {
 					System.err.println("Cette avion n'a pas de pièce.");
+					System.out.print(planes.keys().toString());
 					return false;
-				}
-				if (planes.get(index).contains(pieceUser)) {
-					planes.get(index).remove(pieceUser);
-					return true;
 				}
 				System.err.print("La pièce n'est pas dans la liste");
 				return false;
@@ -92,9 +88,13 @@ public class Plm {
 		return false;
 	}
 	
+	private static boolean canRemovePiecePlane(ArrayList<String> dataPlane) {
+		return dataPlane.size() > 3;
+	}
+	
 	private static boolean canRemovePiece(Hashtable<Integer, ArrayList<String>> planes) {
 		for (Map.Entry<Integer, ArrayList<String>> plane: planes.entrySet()) {
-			if (plane.getValue().size() > 3) {
+			if (canRemovePiecePlane(plane.getValue())) {
 				return true;
 			}
 		}
@@ -103,28 +103,29 @@ public class Plm {
 
 	private static void addOrRemovePieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes, boolean isAddPiece) {
 		Piece shopPiece = new Piece();
-		boolean wantAddPiece = true;
+		boolean wantAddOrRemovePiece = true;
 		String addOrRemove = isAddPiece ? "ajouter" : "retirer";
 
-		while (wantAddPiece) {
+		while (wantAddOrRemovePiece) {
 			if (!isAddPiece && !canRemovePiece(planes)) {
 				System.out.println("Toutes les avions n'ont pas de pièces.");
-				wantAddPiece = false;
+				wantAddOrRemovePiece = false;
 			} else {
-				System.out.print("Voulez-vous " + addOrRemove + " une pièce à un avion ?[O/n]");
+				System.out.print("Voulez-vous " + addOrRemove + " une pièce à un avion ?[O/n] ");
 				String responseUser = sc.nextLine().trim();
 	
 				if (responseUser.isEmpty() || responseUser.equalsIgnoreCase("O")) {
+					while (!checkProgram(isAddPiece, sc, planes));
+					
 					String pieceUser = "";
 					while (!shopPiece.isInShop(pieceUser)) {
-						System.out.print("Quelle pièce voulez-vous " + addOrRemove + " ajouter ?");
+						System.out.print("Quelle pièce voulez-vous " + addOrRemove + " ? ");
 						pieceUser = sc.nextLine();
 					}
 	
-					while (!checkProgram(pieceUser, isAddPiece, sc, planes));
 	
 				} else if (responseUser.equalsIgnoreCase("n")) {
-					wantAddPiece = false;
+					wantAddOrRemovePiece = false;
 				} else {
 					System.err.println("La saisie n'est pas valide.");
 				}
