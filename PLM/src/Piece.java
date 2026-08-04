@@ -6,19 +6,19 @@
  * 
  */
 public class Piece {
-	String piecesFouga = "Fouga Magister";
+	String piecesAirbus = "Airbus";
 	String piecesInstruments = "Instruments";
 	String piecesDiversCategory = "Pièces diverses";
 	
 	
 	String[][] shop = {
-		{"Tuyères (x2)", "450", piecesFouga},
-		{"Vanne de Réglage", "150", piecesFouga},
-		{"Verins de train", "150", piecesFouga},
-		{"Capots moteurs", "100", piecesFouga},
-		{"Échangeur", "90", piecesFouga},
-		{"Poignée de Gaz", "150", piecesFouga},
-		{"Bonbonne air", "90", piecesFouga},
+		{"Tuyères (x2)", "450", piecesAirbus},
+		{"Vanne de Réglage", "150", piecesAirbus},
+		{"Verins de train", "150", piecesAirbus},
+		{"Capots moteurs", "100", piecesAirbus},
+		{"Switch", "90", piecesAirbus},
+		{"Poignée de Gaz", "150", piecesAirbus},
+		{"Bonbonne air", "90", piecesAirbus},
 		{"Planche de bord fouga", "1200", piecesInstruments},
 		{"Manomètre d'admission", "35", piecesInstruments},
 		{"Tachymère", "39", piecesInstruments},
@@ -30,4 +30,17 @@ public class Piece {
 		{"Connecteurs", "15", piecesDiversCategory},
 		{"Pièces alu", "5", piecesDiversCategory},
 	};
+	
+	protected String[][] getShopPieces() {
+		return shop;
+	}
+	
+	protected boolean isInShop(String wordPiece) {
+		for (String[] piece: shop) {
+			if (piece[0].equalsIgnoreCase(wordPiece)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
