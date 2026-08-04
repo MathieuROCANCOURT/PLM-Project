@@ -170,6 +170,7 @@ public class Plm {
 
 		// searchKeyWordPlane(planes, "80");
 		addOrRemovePieces(sc, planes, true);
+		displayPlanes(planes);
 		addOrRemovePieces(sc, planes, false);
 
 		if (wantDisplay(sc)) {
