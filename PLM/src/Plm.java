@@ -32,10 +32,10 @@ public class Plm {
 			System.out.println("Id n°" + plane.toString());
 		}
 	}
-	
+
 	private static void displayPieces(List<String> pieces) {
 		System.out.println("Voici la liste des pièces:");
-		for (String piece: pieces) {
+		for (String piece : pieces) {
 			System.out.println(piece);
 		}
 	}
@@ -64,36 +64,36 @@ public class Plm {
 		displayPlanes(planesFilterKeyWord);
 	}
 
-	private static boolean checkProgram(boolean addOrRemove, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
+	private static int checkProgram(boolean addOrRemove, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
 		System.out.print("À quelle identifiant voulez-vous mettre ?");
 		try {
 			int index = Integer.parseInt(sc.nextLine());
 			if (planes.containsKey(index)) {
 				if (addOrRemove) {
-					return true;
+					return index;
 				}
 				if (canRemovePiecePlane(planes.get(index))) {
 					System.err.println("Cette avion n'a pas de pièce.");
 					System.out.print(planes.keys().toString());
-					return false;
+					return -1;
 				}
 				System.err.print("La pièce n'est pas dans la liste");
-				return false;
+				return -1;
 			} else {
 				System.err.println("Le numéro de l'identifiant n'est pas présent.");
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur de saisie, cela doit être un nombre entier.");
 		}
-		return false;
+		return -1;
 	}
-	
+
 	private static boolean canRemovePiecePlane(ArrayList<String> dataPlane) {
 		return dataPlane.size() > 3;
 	}
-	
+
 	private static boolean canRemovePiece(Hashtable<Integer, ArrayList<String>> planes) {
-		for (Map.Entry<Integer, ArrayList<String>> plane: planes.entrySet()) {
+		for (Map.Entry<Integer, ArrayList<String>> plane : planes.entrySet()) {
 			if (canRemovePiecePlane(plane.getValue())) {
 				return true;
 			}
@@ -101,29 +101,55 @@ public class Plm {
 		return false;
 	}
 
-	private static void addOrRemovePieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes, boolean isAddPiece) {
+	private static void addRemovePiece(Scanner sc, ArrayList<String> dataPlane, boolean isAddPiece) {
 		Piece shopPiece = new Piece();
+		String pieceUser = "";
+		String addOrRemove = isAddPiece ? "ajouter" : "retirer";
+		boolean actToAddOrRemove = false;
+
+		while (!actToAddOrRemove) {
+			System.out.print("Quelle pièce voulez-vous " + addOrRemove + " ? ");
+			pieceUser = sc.nextLine();
+			if (!isAddPiece) {
+				if (dataPlane.contains(pieceUser)) {
+					dataPlane.remove(pieceUser);
+					actToAddOrRemove = true;
+				} else {
+					System.err.println("Votre saisie n'est pas dans la liste des pièces de l'avion.");
+				}
+			} else {
+				if (shopPiece.isInShop(pieceUser)) {
+					dataPlane.add(pieceUser);
+					actToAddOrRemove = true;
+				} else {
+					System.err.println("Votre saisie n'est pas dans la liste des pièces.");
+				}
+			}
+		}
+	}
+
+	private static void addOrRemovePieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes,
+			boolean isAddPiece) {
 		boolean wantAddOrRemovePiece = true;
 		String addOrRemove = isAddPiece ? "ajouter" : "retirer";
 
 		while (wantAddOrRemovePiece) {
+			// No pieces of all planes and step to remove piece.
 			if (!isAddPiece && !canRemovePiece(planes)) {
 				System.out.println("Toutes les avions n'ont pas de pièces.");
 				wantAddOrRemovePiece = false;
 			} else {
 				System.out.print("Voulez-vous " + addOrRemove + " une pièce à un avion ?[O/n] ");
 				String responseUser = sc.nextLine().trim();
-	
+
 				if (responseUser.isEmpty() || responseUser.equalsIgnoreCase("O")) {
-					while (!checkProgram(isAddPiece, sc, planes));
-					
-					String pieceUser = "";
-					while (!shopPiece.isInShop(pieceUser)) {
-						System.out.print("Quelle pièce voulez-vous " + addOrRemove + " ? ");
-						pieceUser = sc.nextLine();
-					}
-	
-	
+					int index;
+					do {
+						index = checkProgram(isAddPiece, sc, planes);
+					} while (index == -1);
+
+					addRemovePiece(sc, planes.get(index), isAddPiece);
+
 				} else if (responseUser.equalsIgnoreCase("n")) {
 					wantAddOrRemovePiece = false;
 				} else {
@@ -166,7 +192,7 @@ public class Plm {
 
 		if (wantDisplay(sc)) {
 			displayPlanes(planes);
-			//displayPlanes2(planes);
+			// displayPlanes2(planes);
 		}
 
 		// searchKeyWordPlane(planes, "80");
