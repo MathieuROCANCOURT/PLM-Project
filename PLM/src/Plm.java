@@ -29,8 +29,7 @@ public class Plm {
 		}
 	}
 
-	private static boolean wantDisplay() {
-		Scanner sc = new Scanner(System.in);
+	private static boolean wantDisplay(Scanner sc) {
 		System.out.print("Voulez-vous voir la liste de tous les avions ? [o/n]");
 
 		while (!(sc.hasNext("o") || sc.hasNext("n"))) {
@@ -39,10 +38,8 @@ public class Plm {
 		}
 
 		if (sc.hasNext("o")) {
-			sc.close();
 			return true;
 		}
-		sc.close();
 		return false;
 	}
 	
@@ -58,11 +55,52 @@ public class Plm {
 		System.out.println("Application du mot clé " + keyWord + " à la liste.");
 		displayPlanes(planesFilterKeyWord);
 	}
+	
+	private static Hashtable<Integer, ArrayList<String>> addPieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
+		Piece shopPiece = new Piece();
+		boolean wantAddPiece = true;
+		
+		while (wantAddPiece) {
+			System.out.print("Voulez-vous ajouter une pièce à un avion ?[O/n]");
+			String responseUser = sc.nextLine();
+			
+			if (responseUser.equalsIgnoreCase("O")) {
+				System.out.println("test");
+				boolean pieceInShop = false;
+				String pieceUser = "";
+				while (!pieceInShop) {
+					System.out.print("Quelle pièce voulez-vous ajouter ?");
+					pieceUser = sc.nextLine();
+					pieceInShop = shopPiece.isInShop(pieceUser);
+				}
+				
+				boolean isValidProgram = false;
+				while (!isValidProgram) {
+					System.out.print("À quelle programme voulez-vous mettre ?");
+					try {
+						int index = sc.nextInt();
+						planes.get(index).add(pieceUser);
+						isValidProgram = true;
+					} catch (Exception e) {
+						System.err.println("Erreur de saisie.");
+					}
+				}
+					
+			} else if (responseUser.equalsIgnoreCase("n")) {
+				wantAddPiece = false;
+			} else {
+				System.err.println("La saisie n'est pas valide.");
+			}
+		}
+		
+		return planes;
+	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		String[] phaseCurrently = { "étude de faisabilité", "conception", "définition", "construction", "en service",
 				"clôturé" };
 		Hashtable<Integer, ArrayList<String>> planes = new Hashtable<>();
@@ -89,13 +127,20 @@ public class Plm {
 		planes.put(5, plane5);
 		planes.put(8, plane6);
 
-		if (wantDisplay()) {
+		if (wantDisplay(sc)) {
 			displayPlanes(planes);
 			displayPlanes2(planes);
 		}
-		
-		searchKeyWordPlane(planes, "80");
 
+		//searchKeyWordPlane(planes, "80");
+		planes = addPieces(sc, planes);
+
+		sc.next();
+		if (wantDisplay(sc)) {
+			displayPlanes2(planes);
+		}
+		
+		sc.close();
 	}
 
 }
