@@ -39,58 +39,57 @@ public class Plm {
 
 		return sc.nextLine().equals("o");
 	}
-	
+
 	private static void searchKeyWordPlane(Hashtable<Integer, ArrayList<String>> planes, String keyWord) {
 		Hashtable<Integer, ArrayList<String>> planesFilterKeyWord = new Hashtable<Integer, ArrayList<String>>();
-		
-		for (Map.Entry<Integer, ArrayList<String>> plane: planes.entrySet()) {
+
+		for (Map.Entry<Integer, ArrayList<String>> plane : planes.entrySet()) {
 			if (plane.getValue().get(0).contains(keyWord)) {
 				planesFilterKeyWord.put(plane.getKey(), plane.getValue());
 			}
 		}
-		
+
 		System.out.println("Application du mot clé " + keyWord + " à la liste.");
 		displayPlanes(planesFilterKeyWord);
 	}
-	
+
+	private static boolean checkProgram(String pieceUser, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
+		System.out.print("À quelle programme voulez-vous mettre ?");
+		try {
+			int index = Integer.parseInt(sc.nextLine());
+			if (planes.containsKey(index)) {
+				planes.get(index).add(pieceUser);
+				return true;
+			} else {
+				System.err.println("Le numéro du programme n'est pas présent.");
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur de saisie, cela doit être un nombre entier.");
+		}
+		return false;
+	}
+
 	private static void addPieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
 		Piece shopPiece = new Piece();
 		boolean wantAddPiece = true;
-		
+
 		while (wantAddPiece) {
 			System.out.print("Voulez-vous ajouter une pièce à un avion ?[O/n]");
 			String responseUser = sc.nextLine().trim();
-			
+
 			if (responseUser.isEmpty() || responseUser.equalsIgnoreCase("O")) {
-				boolean pieceInShop = false;
 				String pieceUser = "";
-				while (!pieceInShop) {
+				while (!shopPiece.isInShop(pieceUser)) {
 					System.out.print("Quelle pièce voulez-vous ajouter ?");
 					pieceUser = sc.nextLine();
-					pieceInShop = shopPiece.isInShop(pieceUser);
 				}
-				
-				boolean isValidProgram = false;
-				while (!isValidProgram) {
-					System.out.print("À quelle programme voulez-vous mettre ?");
-					try {
-						int index = Integer.parseInt(sc.nextLine());
-						if (planes.containsKey(index)) {
-							planes.get(index).add(pieceUser);
-							isValidProgram = true;
-						} else {
-							System.err.println("Le numéro du programme n'est pas présent.");
-						}
-					} catch (Exception e) {
-						System.err.println("Erreur de saisie, cela doit être un nombre entier.");
-					}
-				}
-					
-			} else if (responseUser.equalsIgnoreCase("n")) {
+
+				while (!checkProgram(pieceUser, sc, planes));
+
+			} else if (responseUser.equalsIgnoreCase("n"))
 				wantAddPiece = false;
-			} else {
+			else
 				System.err.println("La saisie n'est pas valide.");
-			}
 		}
 	}
 
@@ -130,13 +129,13 @@ public class Plm {
 			displayPlanes2(planes);
 		}
 
-		//searchKeyWordPlane(planes, "80");
+		// searchKeyWordPlane(planes, "80");
 		addPieces(sc, planes);
 
 		if (wantDisplay(sc)) {
 			displayPlanes2(planes);
 		}
-		
+
 		sc.close();
 	}
 
