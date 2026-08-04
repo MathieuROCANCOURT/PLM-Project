@@ -65,14 +65,14 @@ public class Plm {
 	}
 
 	private static boolean checkProgram(String pieceUser, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
-		System.out.print("À quelle programme voulez-vous mettre ?");
+		System.out.print("À quelle identifiant voulez-vous mettre ?");
 		try {
 			int index = Integer.parseInt(sc.nextLine());
 			if (planes.containsKey(index)) {
 				planes.get(index).add(pieceUser);
 				return true;
 			} else {
-				System.err.println("Le numéro du programme n'est pas présent.");
+				System.err.println("Le numéro de l'identifiant n'est pas présent.");
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur de saisie, cela doit être un nombre entier.");
