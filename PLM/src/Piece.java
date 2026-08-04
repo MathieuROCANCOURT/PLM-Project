@@ -21,7 +21,7 @@ public class Piece {
 		{"Bonbonne air", "90", piecesAirbus},
 		{"Planche de bord fouga", "1200", piecesInstruments},
 		{"Manomètre d'admission", "35", piecesInstruments},
-		{"Tachymère", "39", piecesInstruments},
+		{"Tachymètre", "39", piecesInstruments},
 		{"Anémomètre (ASI)", "49", piecesInstruments},
 		{"6 Jambes de train", "200", piecesInstruments},
 		{"Renvoi sécat", "35", "Breguet 'Deux ponts'"},
