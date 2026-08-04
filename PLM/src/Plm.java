@@ -42,13 +42,14 @@ public class Plm {
 
 	private static boolean wantDisplay(Scanner sc) {
 		System.out.print("Voulez-vous voir la liste de tous les avions ? [o/n]");
+		String inputUser = sc.nextLine();
 
-		while (!(sc.hasNext("o") || sc.hasNext("n"))) {
-			sc.nextLine();
+		while (!(inputUser.equalsIgnoreCase("o") || inputUser.equalsIgnoreCase("n"))) {
 			System.out.print("Veuillez entrer 'o' ou 'n'.");
+			inputUser = sc.nextLine();
 		}
 
-		return sc.nextLine().equals("o");
+		return inputUser.equalsIgnoreCase("o");
 	}
 
 	private static void searchKeyWordPlane(Hashtable<Integer, ArrayList<String>> planes, String keyWord) {
@@ -64,13 +65,13 @@ public class Plm {
 		displayPlanes(planesFilterKeyWord);
 	}
 
-	private static int checkId(boolean isRemove, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
+	private static int checkId(Scanner sc, Hashtable<Integer, ArrayList<String>> planes, boolean isAdd) {
 		System.out.print("À quelle identifiant voulez-vous mettre ? ");
 		try {
 			int index = Integer.parseInt(sc.nextLine());
 			if (planes.containsKey(index)) {
 				ArrayList<String> planeData = planes.get(index);
-				if (!isRemove) {
+				if (isAdd) {
 					return index;
 				}
 				if (!canRemovePiecePlane(planeData)) {
@@ -145,7 +146,7 @@ public class Plm {
 				if (responseUser.isEmpty() || responseUser.equalsIgnoreCase("O")) {
 					int index;
 					do {
-						index = checkId(isAddPiece, sc, planes);
+						index = checkId(sc, planes, isAddPiece);
 					} while (index == -1);
 
 					addRemovePiece(sc, planes.get(index), isAddPiece);
