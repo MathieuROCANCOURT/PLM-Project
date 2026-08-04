@@ -6,6 +6,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,6 +20,9 @@ public class Plm {
 			ArrayList<String> planeData = plane.getValue();
 			System.out.println("Id n°" + plane.getKey() + ": Avion " + planeData.get(0) + " qui est en "
 					+ planeData.get(1) + " est destiné au " + planeData.get(2));
+			if (planeData.size() > 3) {
+				displayPieces(planeData.subList(3, planeData.size()));
+			}
 		}
 	}
 
@@ -26,6 +30,13 @@ public class Plm {
 		System.out.println("Voici la liste des avions.");
 		for (Map.Entry<Integer, ArrayList<String>> plane : planes.entrySet()) {
 			System.out.println("Id n°" + plane.toString());
+		}
+	}
+	
+	private static void displayPieces(List<String> pieces) {
+		System.out.println("Voici la liste des pièces:");
+		for (String piece: pieces) {
+			System.out.println(piece);
 		}
 	}
 
@@ -126,14 +137,14 @@ public class Plm {
 
 		if (wantDisplay(sc)) {
 			displayPlanes(planes);
-			displayPlanes2(planes);
+			//displayPlanes2(planes);
 		}
 
 		// searchKeyWordPlane(planes, "80");
 		addPieces(sc, planes);
 
 		if (wantDisplay(sc)) {
-			displayPlanes2(planes);
+			displayPlanes(planes);
 		}
 
 		sc.close();
