@@ -64,20 +64,20 @@ public class Plm {
 		displayPlanes(planesFilterKeyWord);
 	}
 
-	private static int checkProgram(boolean addOrRemove, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
-		System.out.print("À quelle identifiant voulez-vous mettre ?");
+	private static int checkId(boolean isRemove, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
+		System.out.print("À quelle identifiant voulez-vous mettre ? ");
 		try {
 			int index = Integer.parseInt(sc.nextLine());
 			if (planes.containsKey(index)) {
-				if (addOrRemove) {
+				ArrayList<String> planeData = planes.get(index);
+				if (!isRemove) {
 					return index;
 				}
-				if (canRemovePiecePlane(planes.get(index))) {
+				if (!canRemovePiecePlane(planeData)) {
 					System.err.println("Cette avion n'a pas de pièce.");
-					System.out.print(planes.keys().toString());
 					return -1;
 				}
-				System.err.print("La pièce n'est pas dans la liste");
+				System.err.println("La pièce n'est pas dans la liste");
 				return -1;
 			} else {
 				System.err.println("Le numéro de l'identifiant n'est pas présent.");
@@ -128,7 +128,7 @@ public class Plm {
 		}
 	}
 
-	private static void addOrRemovePieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes,
+	private static void addRemoveMultiplePieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes,
 			boolean isAddPiece) {
 		boolean wantAddOrRemovePiece = true;
 		String addOrRemove = isAddPiece ? "ajouter" : "retirer";
@@ -145,7 +145,7 @@ public class Plm {
 				if (responseUser.isEmpty() || responseUser.equalsIgnoreCase("O")) {
 					int index;
 					do {
-						index = checkProgram(isAddPiece, sc, planes);
+						index = checkId(isAddPiece, sc, planes);
 					} while (index == -1);
 
 					addRemovePiece(sc, planes.get(index), isAddPiece);
@@ -196,9 +196,9 @@ public class Plm {
 		}
 
 		// searchKeyWordPlane(planes, "80");
-		addOrRemovePieces(sc, planes, true);
+		addRemoveMultiplePieces(sc, planes, true);
 		displayPlanes(planes);
-		addOrRemovePieces(sc, planes, false);
+		addRemoveMultiplePieces(sc, planes, false);
 
 		if (wantDisplay(sc)) {
 			displayPlanes(planes);
@@ -206,5 +206,4 @@ public class Plm {
 
 		sc.close();
 	}
-
 }
