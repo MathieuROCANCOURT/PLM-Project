@@ -64,13 +64,25 @@ public class Plm {
 		displayPlanes(planesFilterKeyWord);
 	}
 
-	private static boolean checkProgram(String pieceUser, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
+	private static boolean checkProgram(String pieceUser, boolean addOrRemove, Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
 		System.out.print("À quelle identifiant voulez-vous mettre ?");
 		try {
 			int index = Integer.parseInt(sc.nextLine());
 			if (planes.containsKey(index)) {
-				planes.get(index).add(pieceUser);
-				return true;
+				if (addOrRemove) {
+					planes.get(index).add(pieceUser);
+					return true;
+				}
+				if (planes.get(index).size() < 4) {
+					System.err.println("Cette avion n'a pas de pièce.");
+					return false;
+				}
+				if (planes.get(index).contains(pieceUser)) {
+					planes.get(index).remove(pieceUser);
+					return true;
+				}
+				System.err.print("La pièce n'est pas dans la liste");
+				return false;
 			} else {
 				System.err.println("Le numéro de l'identifiant n'est pas présent.");
 			}
@@ -79,28 +91,44 @@ public class Plm {
 		}
 		return false;
 	}
+	
+	private static boolean canRemovePiece(Hashtable<Integer, ArrayList<String>> planes) {
+		for (Map.Entry<Integer, ArrayList<String>> plane: planes.entrySet()) {
+			if (plane.getValue().size() > 3) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-	private static void addPieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes) {
+	private static void addOrRemovePieces(Scanner sc, Hashtable<Integer, ArrayList<String>> planes, boolean isAddPiece) {
 		Piece shopPiece = new Piece();
 		boolean wantAddPiece = true;
+		String addOrRemove = isAddPiece ? "ajouter" : "retirer";
 
 		while (wantAddPiece) {
-			System.out.print("Voulez-vous ajouter une pièce à un avion ?[O/n]");
-			String responseUser = sc.nextLine().trim();
-
-			if (responseUser.isEmpty() || responseUser.equalsIgnoreCase("O")) {
-				String pieceUser = "";
-				while (!shopPiece.isInShop(pieceUser)) {
-					System.out.print("Quelle pièce voulez-vous ajouter ?");
-					pieceUser = sc.nextLine();
-				}
-
-				while (!checkProgram(pieceUser, sc, planes));
-
-			} else if (responseUser.equalsIgnoreCase("n"))
+			if (!isAddPiece && !canRemovePiece(planes)) {
+				System.out.println("Toutes les avions n'ont pas de pièces.");
 				wantAddPiece = false;
-			else
-				System.err.println("La saisie n'est pas valide.");
+			} else {
+				System.out.print("Voulez-vous " + addOrRemove + " une pièce à un avion ?[O/n]");
+				String responseUser = sc.nextLine().trim();
+	
+				if (responseUser.isEmpty() || responseUser.equalsIgnoreCase("O")) {
+					String pieceUser = "";
+					while (!shopPiece.isInShop(pieceUser)) {
+						System.out.print("Quelle pièce voulez-vous " + addOrRemove + " ajouter ?");
+						pieceUser = sc.nextLine();
+					}
+	
+					while (!checkProgram(pieceUser, isAddPiece, sc, planes));
+	
+				} else if (responseUser.equalsIgnoreCase("n")) {
+					wantAddPiece = false;
+				} else {
+					System.err.println("La saisie n'est pas valide.");
+				}
+			}
 		}
 	}
 
@@ -141,7 +169,8 @@ public class Plm {
 		}
 
 		// searchKeyWordPlane(planes, "80");
-		addPieces(sc, planes);
+		addOrRemovePieces(sc, planes, true);
+		addOrRemovePieces(sc, planes, false);
 
 		if (wantDisplay(sc)) {
 			displayPlanes(planes);
