@@ -83,6 +83,12 @@ public class Plm {
 		return -1;
 	}
 
+	/**
+	 * Check if the plane have minimum one piece or not.
+	 * 
+	 * @param dataPlane Plane Data in string ArrayList.
+	 * @return false if plane has 0 piece, else true.
+	 */
 	private static boolean havePiecePlane(ArrayList<String> dataPlane) {
 		return dataPlane.size() > 3;
 	}
