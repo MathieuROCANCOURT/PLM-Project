@@ -146,6 +146,13 @@ public class Plm {
 		return false;
 	}
 
+	/**
+	 * Add or remove one piece.
+	 * 
+	 * @param sc The scanner.
+	 * @param dataPlane A list of data plane.
+	 * @param isAddPiece Action to add a piece otherwise, remove a piece.
+	 */
 	private static void addRemovePiece(Scanner sc, ArrayList<String> dataPlane, boolean isAddPiece) {
 		Piece shopPiece = new Piece();
 		String pieceUser = "";
