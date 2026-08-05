@@ -130,6 +130,13 @@ public class Plm {
 		return dataPlane.size() > 3;
 	}
 
+	/**
+	 * Check if the user can remove a piece in all planes.
+	 * 
+	 * @param planes A dictionary whose keys are identifiers and whose values are
+	 *               aircraft components.
+	 * @return true if one plane have minimum 1 piece, else false.
+	 */
 	private static boolean canRemovePiece(Map<Integer, ArrayList<String>> planes) {
 		for (ArrayList<String> dataPlane : planes.values()) {
 			if (havePiecePlane(dataPlane)) {
@@ -209,7 +216,7 @@ public class Plm {
 		Map<Integer, ArrayList<String>> planes = new HashMap<Integer, ArrayList<String>>();
 
 		// Adding elements to dictionary
-		planes.put(1, new ArrayList<>(Arrays.asList("A320", phaseCurrently[0], "fret")));
+		planes.put(-11, new ArrayList<>(Arrays.asList("A320", phaseCurrently[0], "fret")));
 		planes.put(2, new ArrayList<>(Arrays.asList("A400M", phaseCurrently[2], "militaire")));
 		planes.put(3, new ArrayList<>(Arrays.asList("A300", phaseCurrently[3], "affaire")));
 		planes.put(4, new ArrayList<>(Arrays.asList("A380", phaseCurrently[5], "civil")));
