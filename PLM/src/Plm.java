@@ -35,6 +35,12 @@ public class Plm {
 		});
 	}
 
+	/**
+	 * 2nd meaning to display all planes with pieces.
+	 * 
+	 * @param planes A dictionary whose keys are identifiers and whose values are
+	 *               aircraft components.
+	 */
 	private static void displayPlanes2(Map<Integer, ArrayList<String>> planes) {
 		System.out.println("Voici la liste des avions.");
 
