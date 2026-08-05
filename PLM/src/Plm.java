@@ -87,6 +87,15 @@ public class Plm {
 		displayPlanes(planesFilterKeyWord);
 	}
 
+	/**
+	 * Check if the id is present in the dictionary.
+	 * 
+	 * @param sc The Scanner
+	 * @param planes A dictionary whose keys are identifiers and whose values are
+	 *               aircraft components.
+	 * @param isAdd true is to add a piece, false is to remove a piece.
+	 * @return The index, -1 if not present
+	 */
 	private static int checkId(Scanner sc, Map<Integer, ArrayList<String>> planes, boolean isAdd) {
 		System.out.print("À quelle identifiant voulez-vous mettre ? ");
 
