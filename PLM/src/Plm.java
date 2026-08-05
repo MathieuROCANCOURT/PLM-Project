@@ -31,8 +31,9 @@ public class Plm {
 
 	private static void displayPlanes2(Map<Integer, ArrayList<String>> planes) {
 		System.out.println("Voici la liste des avions.");
-		for (int index : planes.keySet()) {
-			System.out.println("Id n°" + index + " :" + planes.get(index).toString());
+		
+		for (Map.Entry<Integer, ArrayList<String>> plane: planes.entrySet()) {
+			System.out.println("Id n°" + plane.getKey() + " :" + plane.getValue().toString());
 		}
 	}
 
@@ -57,7 +58,7 @@ public class Plm {
 			}
 		});
 
-		System.out.println("Application du mot clé " + keyWord + " à la liste.");
+		System.out.println("\nApplication du mot clé " + keyWord + " à la liste.");
 		displayPlanes(planesFilterKeyWord);
 	}
 
