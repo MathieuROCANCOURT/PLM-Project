@@ -67,6 +67,13 @@ public class Plm {
 		return inputUser.equalsIgnoreCase("o");
 	}
 
+	/**
+	 * Search a key word in all program names if it's in.
+	 * 
+	 * @param planes A dictionary whose keys are identifiers and whose values are
+	 *               aircraft components.
+	 * @param keyWord To search in program name.
+	 */
 	private static void searchKeyWordPlane(Map<Integer, ArrayList<String>> planes, String keyWord) {
 		Map<Integer, ArrayList<String>> planesFilterKeyWord = new HashMap<>();
 
