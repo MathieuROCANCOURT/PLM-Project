@@ -159,7 +159,15 @@ public class Plm {
 		String addOrRemove = isAddPiece ? "ajouter" : "retirer";
 		boolean actToAddOrRemove = false;
 
-		while (!actToAddOrRemove) {
+		if (isAddPiece) {
+			System.out.println("Dans la boutique.");
+			shopPiece.displayPieces(shopPiece.getShopPieces());
+		} else {
+			System.out.println("Voici les pièces de l'avion.");
+			shopPiece.displayPieces(dataPlane.subList(3, dataPlane.size()));
+		}
+		
+		 do {
 			System.out.print("Quelle pièce voulez-vous " + addOrRemove + " ? ");
 			pieceUser = sc.nextLine();
 
@@ -179,7 +187,7 @@ public class Plm {
 					System.err.println("Votre saisie n'est pas dans la liste des pièces.");
 				}
 			}
-		}
+		} while (!actToAddOrRemove);
 	}
 
 	/**
@@ -231,7 +239,7 @@ public class Plm {
 		Map<Integer, ArrayList<String>> planes = new HashMap<Integer, ArrayList<String>>();
 
 		// Adding elements to dictionary
-		planes.put(-11, new ArrayList<>(Arrays.asList("A320", phaseCurrently[0], "fret")));
+		planes.put(1, new ArrayList<>(Arrays.asList("A320", phaseCurrently[0], "fret")));
 		planes.put(2, new ArrayList<>(Arrays.asList("A400M", phaseCurrently[2], "militaire")));
 		planes.put(3, new ArrayList<>(Arrays.asList("A300", phaseCurrently[3], "affaire")));
 		planes.put(4, new ArrayList<>(Arrays.asList("A380", phaseCurrently[5], "civil")));
