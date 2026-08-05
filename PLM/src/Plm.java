@@ -49,6 +49,12 @@ public class Plm {
 		}
 	}
 
+	/**
+	 * Request to user if it want display planes list.
+	 * 
+	 * @param sc A Scanner.
+	 * @return true if 'O' or 'o', false if 'N' or 'n'.
+	 */
 	private static boolean wantDisplay(Scanner sc) {
 		System.out.print("Voulez-vous voir la liste de tous les avions ? [o/n]");
 		String inputUser = sc.nextLine();
