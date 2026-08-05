@@ -2,6 +2,7 @@
  * 
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,8 +34,13 @@ public class Piece {
 		{"Pièces alu", "5", piecesDiversCategory},
 	};
 	
-	protected String[][] getShopPieces() {
-		return shop;
+	protected ArrayList<String> getShopPieces() {
+		ArrayList<String> pieces = new ArrayList<>();
+		
+		for (String[] piece: shop) {
+			pieces.add(piece[0]);
+		}
+		return pieces;
 	}
 
 	protected static void displayPieces(List<String> pieces) {
