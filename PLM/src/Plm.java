@@ -16,6 +16,12 @@ import java.util.Scanner;
  * @author RocancourtM
  */
 public class Plm {
+	/**
+	 * Display all planes with pieces.
+	 * 
+	 * @param planes A dictionary whose keys are identifiers and whose values are
+	 *               aircraft components.
+	 */
 	private static void displayPlanes(Map<Integer, ArrayList<String>> planes) {
 		System.out.println("Voici la liste de tous les avions.");
 
@@ -31,8 +37,8 @@ public class Plm {
 
 	private static void displayPlanes2(Map<Integer, ArrayList<String>> planes) {
 		System.out.println("Voici la liste des avions.");
-		
-		for (Map.Entry<Integer, ArrayList<String>> plane: planes.entrySet()) {
+
+		for (Map.Entry<Integer, ArrayList<String>> plane : planes.entrySet()) {
 			System.out.println("Id n°" + plane.getKey() + " :" + plane.getValue().toString());
 		}
 	}
