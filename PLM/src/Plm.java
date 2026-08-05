@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
+ * The core of the application designed for Airbus's PLM management.
  * 
+ * @author RocancourtM
  */
 public class Plm {
 	private static void displayPlanes(Map<Integer, ArrayList<String>> planes) {
