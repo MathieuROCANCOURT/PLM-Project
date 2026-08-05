@@ -182,6 +182,14 @@ public class Plm {
 		}
 	}
 
+	/**
+	 * Request to user if it want to add or remove a piece.
+	 * 
+	 * @param sc The scanner
+	 * @param planes A dictionary whose keys are identifiers and whose values are
+	 *               aircraft components.
+	 * @param isAddPiece Action to add a piece otherwise, remove a piece.
+	 */
 	private static void addRemoveMultiplePieces(Scanner sc, Map<Integer, ArrayList<String>> planes,
 			boolean isAddPiece) {
 		boolean wantAddOrRemovePiece = true;
